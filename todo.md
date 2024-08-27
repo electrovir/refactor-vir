@@ -1,0 +1,6 @@
+-   rename command
+    -   find all files that reference old var name
+    -   filter to files that import from the old var path (to ensure the old var name is accurate)
+    -   remove old var name from old import
+    -   rename old var references to new var references
+    -   add new var import path

@@ -1,0 +1,47 @@
+exports[`performTheRename > works on an easy rename 1`] = `
+{
+  "result": 1,
+  "cwd": "test-files/easy-rename",
+  "logs": {
+    "stdout": [
+      "Found potentially 2 files to refactor...\\n\\n",
+      "Refactoring src/b.ts..."
+    ],
+    "stderr": []
+  },
+  "contentsDiff": {
+    "src": {
+      "b.ts": "import {newVarA} from './a-new';\\n\\nexport const b = \`\${newVarA} + b\`;\\n"
+    }
+  }
+}
+`;
+
+exports[`performTheRename > works on harder renames 1`] = `
+{
+  "result": 6,
+  "cwd": "test-files/multi-rename",
+  "logs": {
+    "stdout": [
+      "Found potentially 7 files to refactor...\\n\\n",
+      "Refactoring src/import-after-long.ts...",
+      "Refactoring src/import-after.ts...",
+      "Refactoring src/import-before-long.ts...",
+      "Refactoring src/import-before.ts...",
+      "Refactoring src/import-both-long.ts...",
+      "Refactoring src/import-both.ts..."
+    ],
+    "stderr": []
+  },
+  "contentsDiff": {
+    "src": {
+      "import-after-long.ts": "import {newVarA} from './a-new';\\nimport {oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(\\n    newVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-after.ts": "import {newVarA} from './a-new';\\nimport {oldVarBShort} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(newVarA, oldVarBShort);\\n",
+      "import-before-long.ts": "import {newVarA} from './a-new';\\nimport {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    newVarA,\\n);\\n",
+      "import-before.ts": "import {newVarA} from './a-new';\\nimport {bShort,} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(bShort, newVarA);\\n",
+      "import-both-long.ts": "import {newVarA} from './a-new';\\nimport {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    newVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-both.ts": "import {newVarA} from './a-new';\\nimport {bShort,oldVarBShort} from './a';\\n\\nexport const b = \`\${newVarA} + b\`;\\n\\nconsole.log(bShort, newVarA, oldVarBShort);\\n"
+    }
+  }
+}
+`;
