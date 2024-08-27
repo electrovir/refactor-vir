@@ -1,4 +1,4 @@
-import {extractErrorMessage, log} from '@augment-vir/common';
+import {log} from '@augment-vir/common';
 import {commands} from '../command.js';
 import {extractCommandName} from './cli-args.js';
 
@@ -13,7 +13,7 @@ export async function cli(args: ReadonlyArray<string>) {
 
         await commands[commandName]();
     } catch (error) {
-        log.error(extractErrorMessage(error));
+        log.error(error);
         process.exit(1);
     }
 }

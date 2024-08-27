@@ -38,18 +38,18 @@ describe(performTheRename.name, () => {
         await testPerformTheRename(context, {
             cwd: join(testFilesPath, 'easy-rename'),
             newVarName: 'newVarA',
-            newVarPath: join('src', 'a-new.ts'),
+            newVarPath: './src/a-new.ts',
             oldVarName: 'oldVarA',
-            oldVarPath: join('src', 'a.ts'),
+            oldVarPath: './src/a.ts',
         });
     });
     it('works on harder renames', async (context) => {
         await testPerformTheRename(context, {
             cwd: join(testFilesPath, 'multi-rename'),
             newVarName: 'newVarA',
-            newVarPath: join('src', 'a-new.ts'),
+            newVarPath: './src/a-new.ts',
             oldVarName: 'oldVarA',
-            oldVarPath: join('src', 'a.ts'),
+            oldVarPath: './src/a.ts',
         });
     });
 });

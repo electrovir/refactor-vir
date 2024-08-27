@@ -1,7 +1,7 @@
 import {log, wait} from '@augment-vir/common';
 import {askQuestion as baseAskQuestion} from '@augment-vir/node';
 import {existsSync} from 'node:fs';
-import {resolve} from 'node:path';
+import {resolvePath} from '../augments/path.js';
 
 export type RenameParams = {
     cwd: string;
@@ -10,14 +10,6 @@ export type RenameParams = {
     newVarName: string | undefined;
     newVarPath: string | undefined;
 };
-
-export function resolvePathParams(params: Readonly<RenameParams>): RenameParams {
-    return {
-        ...params,
-        newVarPath: params.newVarPath ? resolve(params.cwd, params.newVarPath) : undefined,
-        oldVarPath: resolve(params.cwd, params.oldVarPath),
-    };
-}
 
 async function askQuestion(question: string) {
     return baseAskQuestion(`\n${question}`, {
@@ -28,37 +20,47 @@ async function askQuestion(question: string) {
 }
 
 export async function gatherParams(): Promise<RenameParams> {
-    const cwd = resolve(await askQuestion('Enter the project path for refactoring:'));
+    const cwd = resolvePath(
+        process.cwd(),
+        await askQuestion(
+            'Enter the project path for refactoring (start with ./ for relative paths):',
+        ),
+    );
+
     if (!existsSync(cwd)) {
         throw new Error(`Base path does not exist: '${cwd}'`);
     }
     log.faint(cwd);
 
     const oldVarName = await askQuestion('Enter the current var name:');
-    const oldVarPath = resolve(cwd, await askQuestion('Enter the current var file path:'));
-    log.faint(oldVarPath);
+    const oldVarPath = await askQuestion(
+        'Enter the current var file path (start with ./ for relative paths):',
+    );
+    log.faint(resolvePath(cwd, oldVarPath));
 
     log.if(!existsSync(oldVarPath)).warning(
         `Warning: current var path does not exist: '${oldVarPath}'`,
     );
 
     const newVarName =
-        (await askQuestion('Enter the new var name (or leave empty to skip renaming):')) ||
+        (await askQuestion('Enter the new var name, or leave empty to skip renaming:')) ||
         undefined;
     const newVarPath =
-        resolve(
-            cwd,
-            await askQuestion(
-                'Enter the new var file path (or leave empty to skip updating imports):',
-            ),
-        ) || undefined;
+        (await askQuestion(
+            'Enter the new var file path, or leave empty to skip updating import paths (start with ./ for relative paths):',
+        )) || undefined;
 
-    log.if(!!newVarPath && !existsSync(newVarPath)).warning(
-        `Warning: new var path does not exist: '${newVarPath}'`,
+    const resolvedNewVarPath = newVarPath ? resolvePath(cwd, newVarPath) : undefined;
+
+    log.if(!!resolvedNewVarPath && !existsSync(resolvedNewVarPath)).warning(
+        `Warning: new var path does not exist: '${resolvedNewVarPath}'`,
     );
     log.if(newVarPath === oldVarPath).warning(
         'Warning: new var path is identical to the old var path.',
     );
+    if (newVarPath) {
+        log.faint(resolvePath(cwd, newVarPath));
+    }
 
     if (!newVarPath && !newVarName) {
         throw new Error("No new var name or path provided: there's nothing to refactor.");

@@ -2,12 +2,12 @@ import {check} from '@augment-vir/assert';
 import {awaitedBlockingMap, wrapString, type Logger} from '@augment-vir/common';
 import {joinFilesToDir, runShellCommand, toPosixPath} from '@augment-vir/node';
 import {readFile, writeFile} from 'node:fs/promises';
-import {dirname, relative, sep} from 'node:path';
+import {resolve} from 'node:path';
+import {dirname, relative, sep} from 'node:path/posix';
+import {isRelativePath} from '../augments/path.js';
 import type {RenameParams} from './rename-params.js';
-import {resolvePathParams} from './rename-params.js';
 
-export async function performTheRename(renameParams: Readonly<RenameParams>, log: Logger) {
-    const params = resolvePathParams(renameParams);
+export async function performTheRename(params: Readonly<RenameParams>, log: Logger) {
     const {cwd, newVarName, oldVarName, oldVarPath} = params;
     const command = [
         'grep',
@@ -33,13 +33,18 @@ export async function performTheRename(renameParams: Readonly<RenameParams>, log
         }
 
         const contents = String(await readFile(filePath));
-        const relativeOldVarImportPath = getRelativeImportPath(dirname(filePath), oldVarPath);
+        const relativeOldVarImportPath = getRelativeImportPath({
+            from: dirname(filePath),
+            to: oldVarPath,
+            cwd,
+        });
 
         const hasImport =
             contents.includes(`'${toPosixPath(relativeOldVarImportPath)}`) ||
             contents.includes(`"${toPosixPath(relativeOldVarImportPath)}`);
 
-        if (!hasImport) {
+        if (!hasImport || !contents.match(replacementRegExp)) {
+            log.faint(`Skipping ${relative(cwd, filePath)}`);
             return false;
         }
 
@@ -60,17 +65,25 @@ export async function performTheRename(renameParams: Readonly<RenameParams>, log
         return true;
     }
 
-    const results = await awaitedBlockingMap(potentialFilePaths, fixFile);
+    const count = (await awaitedBlockingMap(potentialFilePaths, fixFile)).filter(
+        check.isTruthy,
+    ).length;
 
-    return results.filter(check.isTruthy).length;
+    log.success(`Successfully refactored ${count} files.`);
+
+    return count;
 }
 
-function getRelativeImportPath(from: string, to: string): string {
-    const rawRelativeOldVarImportPath = relative(from, to).replace(
-        /\.(?:ts|js|tsx|jsx|mjs|cjs|mts|cts)$/,
-        '',
-    );
-    if (rawRelativeOldVarImportPath.startsWith('.')) {
+function getRelativeImportPath({cwd, from, to}: {from: string; to: string; cwd: string}): string {
+    const truncatedTo = to.replace(/\.(?:ts|js|tsx|jsx|mjs|cjs|mts|cts)$/, '');
+
+    if (!isRelativePath(truncatedTo)) {
+        return truncatedTo;
+    }
+
+    const rawRelativeOldVarImportPath = relative(from, resolve(cwd, truncatedTo));
+
+    if (isRelativePath(rawRelativeOldVarImportPath)) {
         return rawRelativeOldVarImportPath;
     } else {
         return [
@@ -111,11 +124,11 @@ function removeOldImport(
 
 function addNewImport(
     currentFilePath: string,
-    {newVarName, newVarPath, oldVarName, oldVarPath}: Readonly<Omit<RenameParams, 'cwd'>>,
+    {cwd, newVarName, newVarPath, oldVarName, oldVarPath}: Readonly<RenameParams>,
     contents: string,
 ): string {
     return (
-        `import {${newVarName || oldVarName}} from '${getRelativeImportPath(dirname(currentFilePath), newVarPath || oldVarPath)}';\n` +
+        `import {${newVarName || oldVarName}} from '${getRelativeImportPath({from: dirname(currentFilePath), to: newVarPath || oldVarPath, cwd})}';\n` +
         contents
     );
 }

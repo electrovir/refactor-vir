@@ -5,7 +5,9 @@ exports[`performTheRename > works on an easy rename 1`] = `
   "logs": {
     "stdout": [
       "Found potentially 2 files to refactor...\\n\\n",
-      "Refactoring src/b.ts..."
+      "Skipping src/a.ts",
+      "Refactoring src/b.ts...",
+      "Successfully refactored 1 files."
     ],
     "stderr": []
   },
@@ -24,12 +26,14 @@ exports[`performTheRename > works on harder renames 1`] = `
   "logs": {
     "stdout": [
       "Found potentially 7 files to refactor...\\n\\n",
+      "Skipping src/a.ts",
       "Refactoring src/import-after-long.ts...",
       "Refactoring src/import-after.ts...",
       "Refactoring src/import-before-long.ts...",
       "Refactoring src/import-before.ts...",
       "Refactoring src/import-both-long.ts...",
-      "Refactoring src/import-both.ts..."
+      "Refactoring src/import-both.ts...",
+      "Successfully refactored 6 files."
     ],
     "stderr": []
   },
