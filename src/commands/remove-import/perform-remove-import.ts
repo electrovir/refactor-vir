@@ -15,6 +15,8 @@ export async function performRemoveImport(
 ) {
     const potentialFilePaths = await grep(cwd, removeExtension(basename(importPath)));
 
+    log.info(`Found potentially ${potentialFilePaths.length} files to refactor...\n\n`);
+
     const importReplacementRegExp = importVarName
         ? new RegExp(`[\\s\\n]*\\b${importVarName}\\b,?[\\s\\n]*`, 'g')
         : undefined;

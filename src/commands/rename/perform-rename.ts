@@ -6,7 +6,7 @@ import {dirname, relative} from 'node:path/posix';
 import {getRelativeImportPath} from '../../augments/path.js';
 import {grep} from '../common/grep.js';
 import {removeSingleImport} from '../common/remove-single-import.js';
-import type {RenameParams} from './rename-params.js';
+import type {RenameParams} from './gather-rename-params.js';
 
 export async function performTheRename(params: Readonly<RenameParams>, log: Logger) {
     const {cwd, newVarName, oldVarName, oldVarPath} = params;

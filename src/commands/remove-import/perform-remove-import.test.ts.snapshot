@@ -4,6 +4,7 @@ exports[`performRemoveImport > works on an single import var removal 1`] = `
   "cwd": "test-files/remove-import/single-var",
   "logs": {
     "stdout": [
+      "Found potentially 8 files to refactor...\\n\\n",
       "Skipping src/a-new.ts",
       "Skipping src/a.ts",
       "Refactoring src/import-after-long.ts...",
@@ -35,6 +36,7 @@ exports[`performRemoveImport > works on entire import removal 1`] = `
   "cwd": "test-files/remove-import/entire-import",
   "logs": {
     "stdout": [
+      "Found potentially 9 files to refactor...\\n\\n",
       "Skipping src/a-new.ts",
       "Skipping src/a.ts",
       "Refactoring src/import-after-long.ts...",

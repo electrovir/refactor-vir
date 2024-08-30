@@ -1,0 +1,30 @@
+exports[`performAddImport > works 1`] = `
+{
+  "cwd": "test-files/add-import/a",
+  "logs": {
+    "stdout": [
+      "Found 7 files to refactor...\\n\\n",
+      "Adding import to src/import-after-long.ts...",
+      "Adding import to src/import-after.ts...",
+      "Adding import to src/import-bare.ts...",
+      "Adding import to src/import-before-long.ts...",
+      "Adding import to src/import-before.ts...",
+      "Adding import to src/import-both-long.ts...",
+      "Adding import to src/import-both.ts...",
+      "Successfully refactored 7 files."
+    ],
+    "stderr": []
+  },
+  "contentsDiff": {
+    "src": {
+      "import-after-long.ts": "import {stuff} from './a-new.ts'\\nimport {\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-after.ts": "import {stuff} from './a-new.ts'\\nimport {oldVarA, oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(oldVarA, oldVarBShort);\\n",
+      "import-bare.ts": "import {stuff} from './a-new.ts'\\n// prettier-ignore\\nimport { newVarA } from './a-new';\\n// prettier-ignore\\nimport './a';\\n\\nconsole.log(newVarA);\\n",
+      "import-before-long.ts": "import {stuff} from './a-new.ts'\\nimport {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n);\\n",
+      "import-before.ts": "import {stuff} from './a-new.ts'\\nimport {bShort, oldVarA} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA);\\n",
+      "import-both-long.ts": "import {stuff} from './a-new.ts'\\nimport {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-both.ts": "import {stuff} from './a-new.ts'\\nimport {bShort, oldVarA, oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA, oldVarBShort);\\n"
+    }
+  }
+}
+`;

@@ -4,6 +4,6 @@ import {performRemoveImport} from './perform-remove-import.js';
 
 /** Removes imports from files. */
 export async function removeImport(log: Readonly<Logger>) {
-    const params = await gatherRemoveImportParams();
+    const params = await gatherRemoveImportParams(log);
     await performRemoveImport(params, log);
 }

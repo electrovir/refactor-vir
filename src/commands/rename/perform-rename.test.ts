@@ -2,8 +2,8 @@ import {describe, it, type NodeTestContext} from '@augment-vir/test';
 import {join} from 'node:path';
 import {testFilesPath} from '../../repo-paths.js';
 import {testCommand} from '../common/test-command.mock.js';
+import type {RenameParams} from './gather-rename-params.js';
 import {performTheRename} from './perform-rename.js';
-import type {RenameParams} from './rename-params.js';
 
 describe(performTheRename.name, () => {
     async function testPerformTheRename(context: Readonly<NodeTestContext>, params: RenameParams) {

@@ -2,6 +2,8 @@ import {check} from '@augment-vir/assert';
 import {extractRelevantArgs} from 'cli-args-vir';
 import {commands, type Command} from '../command.js';
 
+const expectedCommandMessage = `Expected one of: ${Object.keys(commands).join(',')}`;
+
 /**
  * Extracts a valid command name from the given raw args.
  *
@@ -17,11 +19,9 @@ export function extractCommandName(rawArgs: ReadonlyArray<string>, fileName: str
     const commandName = args[0];
 
     if (!commandName) {
-        throw new Error(`Missing command. Expected one of: '${Object.keys(commands).join(',')}'.`);
+        throw new Error(`Missing command. ${expectedCommandMessage}.`);
     } else if (!check.isKeyOf(commandName, commands)) {
-        throw new Error(
-            `Invalid command given: '${commandName}'. Expected one of: '${Object.keys(commands).join(',')}'.`,
-        );
+        throw new Error(`Invalid command given: '${commandName}'. ${expectedCommandMessage}.`);
     }
 
     return commandName;
