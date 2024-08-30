@@ -1,0 +1,63 @@
+exports[`performRemoveImport > works on an single import var removal 1`] = `
+{
+  "result": 6,
+  "cwd": "test-files/remove-import/single-var",
+  "logs": {
+    "stdout": [
+      "Skipping src/a-new.ts",
+      "Skipping src/a.ts",
+      "Refactoring src/import-after-long.ts...",
+      "Refactoring src/import-after.ts...",
+      "Refactoring src/import-before-long.ts...",
+      "Refactoring src/import-before.ts...",
+      "Refactoring src/import-both-long.ts...",
+      "Refactoring src/import-both.ts...",
+      "Successfully refactored 6 files."
+    ],
+    "stderr": []
+  },
+  "contentsDiff": {
+    "src": {
+      "import-after-long.ts": "import {\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-after.ts": "import {oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(oldVarA, oldVarBShort);\\n",
+      "import-before-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n);\\n",
+      "import-before.ts": "import {bShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA);\\n",
+      "import-both-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-both.ts": "import {bShort, oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA, oldVarBShort);\\n"
+    }
+  }
+}
+`;
+
+exports[`performRemoveImport > works on entire import removal 1`] = `
+{
+  "result": 7,
+  "cwd": "test-files/remove-import/entire-import",
+  "logs": {
+    "stdout": [
+      "Skipping src/a-new.ts",
+      "Skipping src/a.ts",
+      "Refactoring src/import-after-long.ts...",
+      "Refactoring src/import-after.ts...",
+      "Refactoring src/import-bare.ts...",
+      "Refactoring src/import-before-long.ts...",
+      "Refactoring src/import-before.ts...",
+      "Refactoring src/import-both-long.ts...",
+      "Refactoring src/import-both.ts...",
+      "Successfully refactored 7 files."
+    ],
+    "stderr": []
+  },
+  "contentsDiff": {
+    "src": {
+      "import-after-long.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-after.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(oldVarA, oldVarBShort);\\n",
+      "import-bare.ts": "// prettier-ignore\\nimport { newVarA } from './a-new';\\n// prettier-ignore\\n\\nconsole.log(newVarA);\\n",
+      "import-before-long.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n);\\n",
+      "import-before.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA);\\n",
+      "import-both-long.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-both.ts": "\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA, oldVarBShort);\\n"
+    }
+  }
+}
+`;

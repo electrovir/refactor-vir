@@ -1,9 +1,12 @@
-import {rename} from './rename/rename.js';
+import {removeImport} from './commands/remove-import/remove-import.js';
+import {rename} from './commands/rename/rename.js';
 
 /** All supported refactor-vir commands. */
 export const commands = {
-    /** The rename command. */
+    /** {@inheritDoc rename} */
     rename,
+    /** {@inheritDoc removeImport} */
+    removeImport,
 } as const;
 
 /** All supported refactor-vir command names. */

@@ -1,4 +1,5 @@
 import {resolve} from 'node:path';
+import {relative, sep} from 'node:path/posix';
 
 export function resolvePath(cwd: string, rawPath: string): string {
     if (!rawPath) {
@@ -12,4 +13,35 @@ export function resolvePath(cwd: string, rawPath: string): string {
 
 export function isRelativePath(path: string): boolean {
     return path.startsWith('./') || path.startsWith('../');
+}
+
+export function getRelativeImportPath({
+    cwd,
+    from,
+    to,
+}: {
+    from: string;
+    to: string;
+    cwd: string;
+}): string {
+    const truncatedTo = removeExtension(to);
+
+    if (!isRelativePath(truncatedTo)) {
+        return truncatedTo;
+    }
+
+    const rawRelativeOldVarImportPath = relative(from, resolve(cwd, truncatedTo));
+
+    if (isRelativePath(rawRelativeOldVarImportPath)) {
+        return rawRelativeOldVarImportPath;
+    } else {
+        return [
+            '.',
+            rawRelativeOldVarImportPath,
+        ].join(sep);
+    }
+}
+
+export function removeExtension(path: string): string {
+    return path.replace(/\.(?:ts|js|tsx|jsx|mjs|cjs|mts|cts)$/, '');
 }

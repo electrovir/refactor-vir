@@ -1,5 +1,6 @@
 #!/usr/bin/env -S npx tsx
 
+import {log} from '@augment-vir/common';
 import {cli} from './run-cli.js';
 
-await cli(process.argv);
+await cli(process.argv, log);
