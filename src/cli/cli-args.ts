@@ -1,6 +1,8 @@
 import {check} from '@augment-vir/assert';
+import {mapObjectValues} from '@augment-vir/common';
 import {extractRelevantArgs} from 'cli-args-vir';
 import {commands, type Command} from '../command.js';
+import {defaultCliFlags, type CliFlags} from './cli-flags.js';
 
 const expectedCommandMessage = `Expected one of: ${Object.keys(commands).join(',')}`;
 
@@ -9,7 +11,10 @@ const expectedCommandMessage = `Expected one of: ${Object.keys(commands).join(',
  *
  * @param rawArgs The raw list of raw args passed to the CLI command.
  */
-export function extractCommandName(rawArgs: ReadonlyArray<string>, fileName: string): Command {
+export function extractCliArgs(
+    rawArgs: ReadonlyArray<string>,
+    fileName: string,
+): {command: Command; flags: CliFlags} {
     const args = extractRelevantArgs({
         binName: 'rv',
         fileName,
@@ -24,5 +29,7 @@ export function extractCommandName(rawArgs: ReadonlyArray<string>, fileName: str
         throw new Error(`Invalid command given: '${commandName}'. ${expectedCommandMessage}.`);
     }
 
-    return commandName;
+    const flags = mapObjectValues(defaultCliFlags, (key) => args.includes(key));
+
+    return {command: commandName, flags};
 }

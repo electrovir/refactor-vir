@@ -1,4 +1,4 @@
-import {describe, it, type NodeTestContext} from '@augment-vir/test';
+import {describe, it, type UniversalContext} from '@augment-vir/test';
 import {join} from 'node:path';
 import {testFilesPath} from '../../repo-paths.js';
 import {testCommand} from '../common/test-command.mock.js';
@@ -7,7 +7,7 @@ import {performAddImport} from './perform-add-import.js';
 
 describe(performAddImport.name, () => {
     async function testPerformTheRename(
-        context: Readonly<NodeTestContext>,
+        context: Readonly<UniversalContext>,
         params: AddImportParams,
     ) {
         await testCommand(context, params.cwd, async (log) => performAddImport(params, log));

@@ -1,6 +1,6 @@
 {
     "name": "refactor-vir",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Making widespread codebase refactors easier.",
     "keywords": [
         "refactor",
@@ -36,6 +36,7 @@
         "format": "virmator format",
         "lint": "virmator lint fix",
         "publish": "virmator publish npm run test:all",
+        "start": "src/cli/cli.ts",
         "test": "virmator test node",
         "test:all": "npm run compile && npm test && concurrently --colors --kill-others-on-fail -c auto --names spelling,format,docs,deps,lint \"npm run test:spelling\" \"npm run test:format\" \"npm run test:docs\" \"npm run test:deps\" \"npm run test:lint\"",
         "test:deps": "virmator deps check",
@@ -46,10 +47,10 @@
         "test:update": "npm run test update"
     },
     "dependencies": {
-        "@augment-vir/assert": "^30.0.0",
-        "@augment-vir/common": "^30.0.0",
-        "@augment-vir/node": "^30.0.0",
-        "@augment-vir/test": "^30.0.0",
+        "@augment-vir/assert": "^30.0.1",
+        "@augment-vir/common": "^30.0.1",
+        "@augment-vir/node": "^30.0.1",
+        "@augment-vir/test": "^30.0.1",
         "@virmator/plugin-testing": "^13.3.8",
         "cli-args-vir": "^0.0.3",
         "tsx": "^4.19.0"
@@ -83,6 +84,7 @@
         "prettier-plugin-sort-json": "^4.0.0",
         "prettier-plugin-toml": "^2.0.1",
         "refactor-vir": ".",
+        "type-fest": "^4.26.1",
         "typedoc": "^0.26.6",
         "typescript": "^5.5.4",
         "typescript-eslint": "^8.2.0",

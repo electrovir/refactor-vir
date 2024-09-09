@@ -1,5 +1,6 @@
 import {resolve} from 'node:path';
 import {relative, sep} from 'node:path/posix';
+import type {Tagged} from 'type-fest';
 
 export function resolvePath(cwd: string, rawPath: string): string {
     if (!rawPath) {
@@ -12,7 +13,12 @@ export function resolvePath(cwd: string, rawPath: string): string {
 }
 
 export function isRelativePath(path: string): boolean {
-    return path.startsWith('./') || path.startsWith('../');
+    return (
+        path.startsWith('./') ||
+        path.startsWith('../') ||
+        path.startsWith('.\\') ||
+        path.startsWith('..\\')
+    );
 }
 
 export function getRelativeImportPath({
@@ -45,3 +51,11 @@ export function getRelativeImportPath({
 export function removeExtension(path: string): string {
     return path.replace(/\.(?:ts|js|tsx|jsx|mjs|cjs|mts|cts)$/, '');
 }
+
+/**
+ * A path in the current computer's file system. The format for this path is operating system
+ * dependent.
+ */
+export type SystemPath = Tagged<string, 'system-path'>;
+/** A path in the TS import system. This is always posix. */
+export type ImportPath = Tagged<string, 'import-path'>;

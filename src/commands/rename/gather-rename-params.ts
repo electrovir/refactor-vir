@@ -11,12 +11,12 @@ export async function gatherRenameParams(log: Readonly<Logger>) {
             {
                 key: 'oldVarName',
                 question: 'Enter the current var name:',
-                verifyInput() {},
+                assertValidInput() {},
             },
             {
                 key: 'oldVarPath',
                 question: 'Enter the current var file path (start with ./ for relative paths):',
-                verifyInput(oldVarPath, cwd) {
+                assertValidInput(oldVarPath, cwd) {
                     log.faint(resolvePath(cwd, oldVarPath));
 
                     log.if(!existsSync(oldVarPath)).warning(
@@ -27,13 +27,13 @@ export async function gatherRenameParams(log: Readonly<Logger>) {
             {
                 key: 'newVarName',
                 question: 'Enter the new var name, or leave empty to skip renaming:',
-                verifyInput() {},
+                assertValidInput() {},
             },
             {
                 key: 'newVarPath',
                 question:
                     'Enter the new var file path, or leave empty to skip updating import paths (start with ./ for relative paths):',
-                verifyInput(newVarPath, cwd) {
+                assertValidInput(newVarPath, cwd) {
                     const resolvedNewVarPath = resolvePath(cwd, newVarPath);
                     log.if(!!resolvedNewVarPath && !existsSync(resolvedNewVarPath)).warning(
                         `Warning: new var path does not exist: '${resolvedNewVarPath}'`,

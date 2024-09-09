@@ -1,22 +1,24 @@
 import {
-    createLoggerWithStoredLogs,
+    createArrayLogger,
     diffObjects,
+    RuntimeEnv,
     type Logger,
     type MaybePromise,
 } from '@augment-vir/common';
 import {toPosixPath} from '@augment-vir/node';
-import {NodeTestContext} from '@augment-vir/test';
+import {assertTestContext, type UniversalContext} from '@augment-vir/test';
 import {readAllDirContents, resetDirContents} from '@virmator/plugin-testing';
 import {relative} from 'node:path';
 import {monoRepoPath} from '../../repo-paths.js';
 
 export async function testCommand(
-    context: Readonly<NodeTestContext>,
+    context: Readonly<UniversalContext>,
     cwd: string,
     runCommand: (log: Logger) => MaybePromise<unknown>,
     skipReset = false,
 ) {
-    const {log, logs} = createLoggerWithStoredLogs({omitColors: true});
+    assertTestContext(context, RuntimeEnv.Node);
+    const {log, logs} = createArrayLogger({omitColors: true});
     const contentsBefore = await readAllDirContents(cwd, {
         recursive: true,
     });

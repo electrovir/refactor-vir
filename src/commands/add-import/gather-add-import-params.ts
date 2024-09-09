@@ -10,12 +10,12 @@ export async function gatherAddImportParams(log: Readonly<Logger>) {
             {
                 key: 'fileGlob',
                 question: 'Enter a glob for files to match (leave empty to match all .ts files):',
-                verifyInput() {},
+                assertValidInput() {},
             },
             {
                 key: 'importString',
                 question: 'Enter the import string to add:',
-                verifyInput(importPath) {
+                assertValidInput(importPath) {
                     assert.isTruthy(importPath, 'No import string given.');
                 },
             },

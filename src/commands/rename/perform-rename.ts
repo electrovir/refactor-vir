@@ -8,7 +8,7 @@ import {grep} from '../common/grep.js';
 import {removeSingleImport} from '../common/remove-single-import.js';
 import type {RenameParams} from './gather-rename-params.js';
 
-export async function performTheRename(params: Readonly<RenameParams>, log: Logger) {
+export async function performRename(params: Readonly<RenameParams>, log: Logger) {
     const {cwd, newVarName, oldVarName, oldVarPath} = params;
     const potentialFilePaths = await grep(cwd, oldVarName);
 

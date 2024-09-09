@@ -5,7 +5,7 @@ import {existsSync} from 'node:fs';
 export type GatherParamConfig = {
     key: string;
     question: string;
-    verifyInput(input: string, cwd: string): MaybePromise<void>;
+    assertValidInput(input: string, cwd: string): MaybePromise<void>;
 };
 
 export type GatheredParams<Config extends ReadonlyArray<Readonly<GatherParamConfig>>> = Record<
@@ -27,7 +27,7 @@ export async function gatherParams<const Configs extends GatherParamConfig[]>(
 ): Promise<GatheredParams<Configs>> {
     const cwd = await getParam('', {
         question: 'Enter the project path for refactoring (start with ./ for relative paths):',
-        verifyInput(input) {
+        assertValidInput(input) {
             if (!existsSync(input)) {
                 throw new Error(`Base path does not exist: '${cwd}'`);
             }
@@ -46,7 +46,7 @@ export async function gatherParams<const Configs extends GatherParamConfig[]>(
 
 export async function getParam(cwd: string, config: Readonly<Omit<GatherParamConfig, 'key'>>) {
     const result = await askQuestion(config.question);
-    await config.verifyInput(result, cwd);
+    await config.assertValidInput(result, cwd);
     return result;
 }
 
@@ -77,7 +77,7 @@ export async function approveParams<const Params extends Record<string, string>>
 
     await getParam('', {
         question: 'Does this look right? Should we proceed? (y/N):',
-        verifyInput(input) {
+        assertValidInput(input) {
             if (!input.toLowerCase().startsWith('y')) {
                 throw new Error('Aborted by user.');
             }

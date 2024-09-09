@@ -12,7 +12,7 @@ export async function gatherRemoveImportParams(log: Readonly<Logger>) {
             {
                 key: 'importPath',
                 question: 'Enter the import path (start with ./ for relative paths):',
-                verifyInput(importPath, cwd) {
+                assertValidInput(importPath, cwd) {
                     assert.isTruthy(importPath, 'No import path given.');
                     log.faint(resolvePath(cwd, importPath));
 
@@ -26,7 +26,7 @@ export async function gatherRemoveImportParams(log: Readonly<Logger>) {
 
                 question:
                     'Enter the imported var name to remove (leave blank to remove all imports from the path):',
-                verifyInput() {},
+                assertValidInput() {},
             },
         ],
         log,

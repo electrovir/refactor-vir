@@ -1,17 +1,19 @@
 import {type Logger} from '@augment-vir/common';
 import {commands} from '../command.js';
-import {extractCommandName} from './cli-args.js';
+import {extractCliArgs} from './cli-args.js';
 
-/**
- * Run the CLI.
- *
- * @param args The raw list of raw args passed to the CLI command.
- */
-export async function cli(args: ReadonlyArray<string>, log: Readonly<Logger>) {
+/** Run the CLI. */
+export async function cli(
+    /** The raw list of args passed to the CLI command. */
+    rawArgs: ReadonlyArray<string>,
+    log: Readonly<Logger>,
+    /** Needed to determine where the args start in CLI mode. */
+    cliFileName: string = '',
+) {
     try {
-        const commandName = extractCommandName(args, import.meta.filename);
+        const {command, flags} = extractCliArgs(rawArgs, cliFileName);
 
-        await commands[commandName](log);
+        await commands[command](log, flags);
     } catch (error) {
         log.error(error);
         process.exit(1);

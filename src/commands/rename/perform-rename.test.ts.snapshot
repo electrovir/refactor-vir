@@ -1,4 +1,4 @@
-exports[`performTheRename > works on an easy rename 1`] = `
+exports[`performRename > works on an easy rename 1`] = `
 {
   "result": 1,
   "cwd": "test-files/rename/easy-rename",
@@ -19,7 +19,7 @@ exports[`performTheRename > works on an easy rename 1`] = `
 }
 `;
 
-exports[`performTheRename > works on harder renames 1`] = `
+exports[`performRename > works on harder renames 1`] = `
 {
   "result": 6,
   "cwd": "test-files/rename/multi-rename",
