@@ -1,6 +1,8 @@
 import {ArrayElement, MaybePromise, awaitedForEach, wait, type Logger} from '@augment-vir/common';
 import {askQuestion as baseAskQuestion} from '@augment-vir/node';
 import {existsSync} from 'node:fs';
+import {CliFlags} from '../../cli/cli-flags.js';
+import {loadLastParams, saveLastParams} from './last-params.js';
 
 export type GatherParamConfig = {
     key: string;
@@ -24,7 +26,18 @@ async function askQuestion(question: string) {
 export async function gatherParams<const Configs extends GatherParamConfig[]>(
     configs: Configs,
     log: Readonly<Logger>,
+    flags: Readonly<CliFlags>,
+    commandName: string,
 ): Promise<GatheredParams<Configs>> {
+    if (flags.last) {
+        const lastParams = await loadLastParams(commandName);
+
+        if (lastParams) {
+            log.faint('Using last params', lastParams);
+            return lastParams as GatheredParams<Configs>;
+        }
+    }
+
     const cwd = await getParam('', {
         question: 'Enter the project path for refactoring (start with ./ for relative paths):',
         assertValidInput(input) {
@@ -40,6 +53,8 @@ export async function gatherParams<const Configs extends GatherParamConfig[]>(
     await awaitedForEach(configs, async (config) => {
         results[config.key] = await getParam(cwd, config);
     });
+
+    await saveLastParams(commandName, results);
 
     return results as GatheredParams<Configs>;
 }

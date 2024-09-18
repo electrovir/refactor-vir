@@ -14,8 +14,8 @@ export function removeSingleImport(
                 ),
                 '$1$2',
             )
-            .replaceAll(/import \{[\s\n,]*\}[\s\n]+from[\s\n]+['"][^'";]+['"];?\n?/g, '')
-            .replaceAll(/,[\s\n]*\}/g, '}');
+            .replaceAll(/import \{[\s,]*\}\s+from\s+['"][^'";]+['"];?\n?/g, '')
+            .replaceAll(/,\s*\}/g, '}');
     } else {
         return contents.replaceAll(
             new RegExp(

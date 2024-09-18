@@ -13,7 +13,7 @@ export async function cli(
     try {
         const {command, flags} = extractCliArgs(rawArgs, cliFileName);
 
-        await commands[command](log, flags);
+        await commands[command](log, flags, command);
     } catch (error) {
         log.error(error);
         process.exit(1);

@@ -2,15 +2,14 @@ import {assert} from '@augment-vir/assert';
 import {
     awaitedForEach,
     escapeStringForRegExp,
-    getOrSet,
     Logger,
     safeMatch,
     wrapString,
 } from '@augment-vir/common';
-import {findAncestor, readPackageJson, toPosixPath} from '@augment-vir/node';
-import {existsSync} from 'node:fs';
+import {toPosixPath} from '@augment-vir/node';
 import {readFile, writeFile} from 'node:fs/promises';
 import {dirname, join, relative, resolve} from 'node:path';
+import {findParentPackage, type PackageCache, type PackageCacheEntry} from '../../augments/npm.js';
 import type {ImportPath} from '../../augments/path.js';
 import {grep} from '../common/grep.js';
 import {ToPackageImportParams} from './gather-to-package-import-params.js';
@@ -112,28 +111,4 @@ async function calculateNewPath({
     }
 
     return undefined;
-}
-
-type PackageCacheEntry = {path: string; name: string};
-
-type PackageCache = {
-    [PackagePath in string]: PackageCacheEntry;
-};
-
-async function findParentPackage(
-    startPath: string,
-    packageCache: PackageCache,
-): Promise<{path: string; name: string}> {
-    const parentPackagePath = findAncestor(dirname(startPath), (path) => {
-        return existsSync(join(path, 'package.json'));
-    });
-
-    assert.isDefined(parentPackagePath, 'Failed to find a parent `package.json`');
-
-    return await getOrSet(packageCache, parentPackagePath, async () => {
-        const parentPackageJson = await readPackageJson(parentPackagePath);
-        const parentName = parentPackageJson.name;
-        assert.isTruthy(parentName, `Parent package has no "name" at '${parentPackagePath}'`);
-        return {path: parentPackagePath, name: parentName};
-    });
 }

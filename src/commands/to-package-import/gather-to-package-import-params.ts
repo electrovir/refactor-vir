@@ -2,7 +2,6 @@ import {assert} from '@augment-vir/assert';
 import {toEnsuredNumber, type Logger} from '@augment-vir/common';
 import {CliFlags} from '../../cli/cli-flags.js';
 import {gatherParams} from '../common/gather-params.js';
-import {loadLastParams, saveLastParams} from '../common/last-params.js';
 
 export type ToPackageImportParams = {
     cwd: string;
@@ -12,16 +11,8 @@ export type ToPackageImportParams = {
 export async function gatherToPackageImportParams(
     log: Readonly<Logger>,
     flags: Readonly<CliFlags>,
+    commandName: string,
 ): Promise<ToPackageImportParams> {
-    if (flags.last) {
-        const lastParams = await loadLastParams<ToPackageImportParams>('toPackageImport');
-
-        if (lastParams) {
-            log.faint('Using last params', lastParams);
-            return lastParams;
-        }
-    }
-
     const params = await gatherParams(
         [
             {
@@ -33,14 +24,12 @@ export async function gatherToPackageImportParams(
             },
         ],
         log,
+        flags,
+        commandName,
     );
 
-    const toPackageImportParams = {
+    return {
         cwd: params.cwd,
         maxParentCount: toEnsuredNumber(params.maxParentCount),
     };
-
-    await saveLastParams('toPackageImport', toPackageImportParams);
-
-    return toPackageImportParams;
 }

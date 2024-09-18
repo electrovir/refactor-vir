@@ -1,11 +1,16 @@
 import {type Logger} from '@augment-vir/common';
 import {existsSync} from 'node:fs';
 import {resolvePath} from '../../augments/path.js';
+import {CliFlags} from '../../cli/cli-flags.js';
 import {approveParams, gatherParams} from '../common/gather-params.js';
 
 export type RenameParams = Awaited<ReturnType<typeof gatherRenameParams>>;
 
-export async function gatherRenameParams(log: Readonly<Logger>) {
+export async function gatherRenameParams(
+    log: Readonly<Logger>,
+    flags: Readonly<CliFlags>,
+    commandName: string,
+) {
     const params = await gatherParams(
         [
             {
@@ -17,9 +22,10 @@ export async function gatherRenameParams(log: Readonly<Logger>) {
                 key: 'oldVarPath',
                 question: 'Enter the current var file path (start with ./ for relative paths):',
                 assertValidInput(oldVarPath, cwd) {
-                    log.faint(resolvePath(cwd, oldVarPath));
+                    const resolvedPath = resolvePath(cwd, oldVarPath);
+                    log.faint(resolvedPath);
 
-                    log.if(!existsSync(oldVarPath)).warning(
+                    log.if(!existsSync(resolvedPath)).warning(
                         `Warning: current var path does not exist: '${oldVarPath}'`,
                     );
                 },
@@ -45,6 +51,8 @@ export async function gatherRenameParams(log: Readonly<Logger>) {
             },
         ],
         log,
+        flags,
+        commandName,
     );
 
     log.if(params.newVarPath === params.oldVarPath).warning(

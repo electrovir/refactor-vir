@@ -2,11 +2,16 @@ import {assert} from '@augment-vir/assert';
 import {type Logger} from '@augment-vir/common';
 import {existsSync} from 'node:fs';
 import {resolvePath} from '../../augments/path.js';
+import {CliFlags} from '../../cli/cli-flags.js';
 import {approveParams, gatherParams} from '../common/gather-params.js';
 
 export type RemoveImportParams = Awaited<ReturnType<typeof gatherRemoveImportParams>>;
 
-export async function gatherRemoveImportParams(log: Readonly<Logger>) {
+export async function gatherRemoveImportParams(
+    log: Readonly<Logger>,
+    flags: Readonly<CliFlags>,
+    commandName: string,
+) {
     const params = await gatherParams(
         [
             {
@@ -30,6 +35,8 @@ export async function gatherRemoveImportParams(log: Readonly<Logger>) {
             },
         ],
         log,
+        flags,
+        commandName,
     );
 
     await approveParams(

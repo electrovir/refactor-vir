@@ -1,6 +1,7 @@
 import type {Logger, MaybePromise} from '@augment-vir/common';
 import type {CliFlags} from './cli/cli-flags.js';
 import {addImport} from './commands/add-import/add-import.command.js';
+import {listDependents} from './commands/list-dependents/list-dependents.command.js';
 import {removeImport} from './commands/remove-import/remove-import.command.js';
 import {rename} from './commands/rename/rename.command.js';
 import {toPackageImport} from './commands/to-package-import/to-package-import.command.js';
@@ -15,9 +16,11 @@ export const commands = {
     addImport,
     /** Replaces relative imports with package imports. */
     toPackageImport,
+    /** Prints all dependents of a given file to the command line. */
+    listDependents,
 } as const satisfies Record<
     string,
-    (log: Readonly<Logger>, flags: Readonly<CliFlags>) => MaybePromise<void>
+    (log: Readonly<Logger>, flags: Readonly<CliFlags>, commandName: string) => MaybePromise<void>
 >;
 
 /** All supported refactor-vir command names. */

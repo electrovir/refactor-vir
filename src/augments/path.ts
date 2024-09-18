@@ -21,6 +21,9 @@ export function isRelativePath(path: string): boolean {
     );
 }
 
+export const extensionsForRegExp = 'ts|js|tsx|jsx|mjs|cjs|mts|cts';
+const extensionRegExp = new RegExp(`\\.(?:${extensionsForRegExp})$`);
+
 export function getRelativeImportPath({
     cwd,
     from,
@@ -49,7 +52,7 @@ export function getRelativeImportPath({
 }
 
 export function removeExtension(path: string): string {
-    return path.replace(/\.(?:ts|js|tsx|jsx|mjs|cjs|mts|cts)$/, '');
+    return path.replace(extensionRegExp, '');
 }
 
 /**

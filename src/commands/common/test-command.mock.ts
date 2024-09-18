@@ -6,13 +6,13 @@ import {
     type MaybePromise,
 } from '@augment-vir/common';
 import {toPosixPath} from '@augment-vir/node';
-import {assertTestContext, type UniversalContext} from '@augment-vir/test';
+import {assertTestContext, type UniversalTestContext} from '@augment-vir/test';
 import {readAllDirContents, resetDirContents} from '@virmator/plugin-testing';
 import {relative} from 'node:path';
 import {monoRepoPath} from '../../repo-paths.js';
 
 export async function testCommand(
-    context: Readonly<UniversalContext>,
+    context: Readonly<UniversalTestContext>,
     cwd: string,
     runCommand: (log: Logger) => MaybePromise<unknown>,
     skipReset = false,
