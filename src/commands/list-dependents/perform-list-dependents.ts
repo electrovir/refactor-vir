@@ -32,6 +32,7 @@ async function listDependents(
 ) {
     if (visitedFiles.includes(currentFile)) {
         log.error(`Circular dependency detected to '${currentFile}'`);
+        return;
     }
 
     const baseFileName = basename(removeExtension(currentFile));
