@@ -1,5 +1,3 @@
-#!/usr/bin/env -S npx tsx
-
 import {log} from '@augment-vir/common';
 import {cli} from './run-cli.js';
 

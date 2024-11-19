@@ -102,7 +102,7 @@ describe(removeSingleImport.name, () => {
                 "import {stuff} from './b';",
                 "import {stuff} from './a-new';",
                 "import {stuff} from './b';",
-                "import {stuff1} from './a';",
+                "import {stuff1, } from './a';",
                 "import {stuff} from './b';",
             ].join('\n'),
         },

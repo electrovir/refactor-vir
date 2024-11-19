@@ -1,6 +1,6 @@
 import {check} from '@augment-vir/assert';
 import {mapObjectValues} from '@augment-vir/common';
-import {extractRelevantArgs} from 'cli-args-vir';
+import {extractRelevantArgs} from '@augment-vir/node';
 import {commands, type Command} from '../command.js';
 import {defaultCliFlags, type CliFlags} from './cli-flags.js';
 

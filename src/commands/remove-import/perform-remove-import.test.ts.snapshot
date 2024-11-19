@@ -19,11 +19,11 @@ exports[`performRemoveImport > works on an single import var removal 1`] = `
   },
   "contentsDiff": {
     "src": {
-      "import-after-long.ts": "import {\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-after-long.ts": "import {\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
       "import-after.ts": "import {oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(oldVarA, oldVarBShort);\\n",
-      "import-before-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n);\\n",
-      "import-before.ts": "import {bShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA);\\n",
-      "import-both-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
+      "import-before-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    } from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n);\\n",
+      "import-before.ts": "import {bShort, } from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA);\\n",
+      "import-both-long.ts": "import {\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(\\n    bSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n    oldVarA,\\n    oldVarBSuperDuperLongImportNameSoItForcesAWrapInTheImportLineBecauseItJustKeepsGoingOnAndOn,\\n);\\n",
       "import-both.ts": "import {bShort, oldVarBShort} from './a';\\n\\nexport const b = \`\${oldVarA} + b\`;\\n\\nconsole.log(bShort, oldVarA, oldVarBShort);\\n"
     }
   }

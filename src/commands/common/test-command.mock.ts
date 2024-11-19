@@ -5,9 +5,8 @@ import {
     type Logger,
     type MaybePromise,
 } from '@augment-vir/common';
-import {toPosixPath} from '@augment-vir/node';
+import {readAllDirContents, resetDirContents, toPosixPath} from '@augment-vir/node';
 import {assertTestContext, type UniversalTestContext} from '@augment-vir/test';
-import {readAllDirContents, resetDirContents} from '@virmator/plugin-testing';
 import {relative} from 'node:path';
 import {monoRepoPath} from '../../repo-paths.js';
 
